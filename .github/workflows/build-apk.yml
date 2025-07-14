@@ -1,3 +1,10 @@
+- name: Ensure Gradle wrapper jar exists
+  run: |
+    mkdir -p webview-apk-template/gradle/wrapper
+    curl -L \
+      https://repo1.maven.org/maven2/org/gradle/wrapper/gradle-wrapper/7.6/gradle-wrapper-7.6.jar \
+      -o webview-apk-template/gradle/wrapper/gradle-wrapper.jar
+
 name: Build APK
 
 on:
