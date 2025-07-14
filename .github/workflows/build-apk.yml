@@ -20,7 +20,7 @@ jobs:
           curl -L https://repo1.maven.org/maven2/org/gradle/wrapper/gradle-wrapper/7.6/gradle-wrapper-7.6.jar \
           -o webview-apk-template/gradle/wrapper/gradle-wrapper.jar
 
-      - name: Change directory permissions
+      - name: Make gradlew executable
         run: chmod +x ./webview-apk-template/gradlew
 
       - name: Set up JDK 17
