@@ -11,31 +11,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Gradle wrapper jar
+      - name: Download working gradle-wrapper.jar
         run: |
+          curl -L https://services.gradle.org/distributions/gradle-7.6-bin.zip -o gradle-7.6-bin.zip
+          unzip gradle-7.6-bin.zip
           mkdir -p webview-apk-template/gradle/wrapper
-          curl -sL https://repo1.maven.org/maven2/org/gradle/wrapper/gradle-wrapper/7.6/gradle-wrapper-7.6.jar \
-            -o webview-apk-template/gradle/wrapper/gradle-wrapper.jar
+          cp gradle-7.6/lib/gradle-wrapper.jar webview-apk-template/gradle/wrapper/gradle-wrapper.jar
 
-      - name: Make wrappers executable
-        run: |
-          chmod +x webview-apk-template/gradlew
-          chmod +x webview-apk-template/gradle/wrapper/gradle-wrapper.jar
+      - name: Make gradlew executable
+        run: chmod +x webview-apk-template/gradlew
 
-      - name: Set up JDK
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: zulu
+          distribution: 'zulu'
           java-version: '17'
 
       - name: Build APK
         working-directory: webview-apk-template
         run: ./gradlew assembleRelease
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: webview-apk
