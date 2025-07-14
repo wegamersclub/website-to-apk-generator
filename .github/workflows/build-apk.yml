@@ -19,6 +19,7 @@ jobs:
           mkdir -p webview-apk-template/gradle/wrapper
           curl -L https://repo1.maven.org/maven2/org/gradle/wrapper/gradle-wrapper/7.6/gradle-wrapper-7.6.jar \
           -o webview-apk-template/gradle/wrapper/gradle-wrapper.jar
+          chmod +x webview-apk-template/gradle/wrapper/gradle-wrapper.jar
 
       - name: Make gradlew executable
         run: chmod +x ./webview-apk-template/gradlew
