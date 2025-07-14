@@ -1,2 +1,2 @@
 @echo off
-gradlew build
+call gradlew build
