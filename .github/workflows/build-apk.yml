@@ -11,31 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Ensure Gradle wrapper jar exists
+      - name: Install Gradle wrapper jar
         run: |
           mkdir -p webview-apk-template/gradle/wrapper
-          curl -L https://repo1.maven.org/maven2/org/gradle/wrapper/gradle-wrapper/7.6/gradle-wrapper-7.6.jar \
-          -o webview-apk-template/gradle/wrapper/gradle-wrapper.jar
+          curl -sL https://repo1.maven.org/maven2/org/gradle/wrapper/gradle-wrapper/7.6/gradle-wrapper-7.6.jar \
+            -o webview-apk-template/gradle/wrapper/gradle-wrapper.jar
+
+      - name: Make wrappers executable
+        run: |
+          chmod +x webview-apk-template/gradlew
           chmod +x webview-apk-template/gradle/wrapper/gradle-wrapper.jar
 
-      - name: Make gradlew executable
-        run: chmod +x ./webview-apk-template/gradlew
-
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
+          distribution: zulu
           java-version: '17'
 
-      - name: Build the APK
-        working-directory: ./webview-apk-template
+      - name: Build APK
+        working-directory: webview-apk-template
         run: ./gradlew assembleRelease
 
-      - name: Upload APK
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: webview-apk
-          path: webview-apk-template/app/build/outputs/apk/release/app-release.apk
+          path: app/build/outputs/apk/release/app-release.apk
